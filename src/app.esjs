@@ -1,22 +1,48 @@
-importar { Terminal } desde '@es-js/terminal'
+importar {Terminal} desde '@es-js/terminal';
+importar {obtenerJson} desde 'https://desarrollo-aplicaciones.vercel.app/2024/code/obtener-json.js';
+importar {validarSecreto} desde 'https://desarrollo-aplicaciones.vercel.app/2024/code/validar-secreto.js';
+importar papeles desde "https://esm.sh/canvas-confetti";
 
 asincrono funcion inicio() {
-	Terminal.limpiar()
-
-	Terminal.escribir('Ingresa un valor:')
-
-	const resultado = esperar Terminal.leer()
-
-	Terminal.escribir({
-		Resultado: resultado,
-		Tipo: tipoDe resultado,
-	})
-
-	Terminal.escribir('Presiona ENTER para volver a iniciar')
-
-	esperar Terminal.leerEnter()
-
-	esperar inicio()
+    Terminal.escribir('Hola humano!  porfavor ingresa la palabra secreta:');
+    
+    const secreto = esperar Terminal.leer();
+    
+    const dni = '14157';
+    
+    si (esperar validarSecreto(dni, secreto)) {
+        Terminal.escribir('Ingreso Exitoso!!!')
+        papeles({
+            particleCount: 200,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0, y: 0.6 }
+        });
+        papeles({
+            particleCount: 200,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1, y: 0.6 }
+        });
+        Terminal.escribir("*".repetir(55))
+        esperar mostrarCotizacion();
+    } sino {
+        Terminal.escribir('Palabra secreta inválida vuelve a intentarlo');
+    }
+    
+    Terminal.escribir('Presiona ENTER para volver a ingresar');
+    
+    esperar Terminal.leerEnter();
+    
+    Terminal.limpiar();
+    
+    inicio();
 }
 
-inicio()
+asincrono funcion mostrarCotizacion() {
+    const dolarBlue = esperar obtenerJson('https://dolarapi.com/v1/dolares/blue');
+    
+    Terminal.escribir(dolarBlue);
+}
+
+inicio();
